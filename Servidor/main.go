@@ -6,7 +6,7 @@ import (
     "net/http"
     "os"
     "encoding/json"
-    sqlc "tp3/Base_Datos/bd/sqlc" // importa el paquete generado por sqlc
+    sqlc "tpe/Base_Datos/bd/sqlc" // importa el paquete generado por sqlc
 
     _ "github.com/lib/pq"
     "strings"
