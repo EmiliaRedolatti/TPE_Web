@@ -7,7 +7,6 @@ import (
     "os"
     "encoding/json"
     sqlc "tpe/Base_Datos/bd/sqlc" // importa el paquete generado por sqlc
-
     _ "github.com/lib/pq"
     "strings"
     "strconv"
@@ -26,6 +25,21 @@ func main() {
     defer dbConn.Close()
 
     queries = sqlc.New(dbConn) //instancia de sqlc
+
+    // 1. Handler para servir archivos estáticos (CSS, JS, Imágenes)
+    // El prefijo "/static/" debe coincidir con cómo se referencian los archivos en el HTML
+    fs := http.FileServer(http.Dir("./static"))
+    http.Handle("/static/", http.StripPrefix("/static/", fs))
+    
+    // Sirve style.css
+    http.Handle("/style.css", http.FileServer(http.Dir(".")))
+
+    // Sirve app.js
+    http.Handle("/app.js", http.FileServer(http.Dir(".")))
+
+    // Sirve la carpeta Imagenes
+    // NOTA: Usamos http.StripPrefix porque la ruta en HTML comienza con /Imagenes/
+    http.Handle("/Imagenes/", http.StripPrefix("/Imagenes/", http.FileServer(http.Dir("."))))
 
     //Leer index.html
     htmlContent, err := os.ReadFile("index.html")
@@ -171,7 +185,7 @@ func updateLibro(w http.ResponseWriter, r *http.Request, id int) {
         Titulo          string  `json:"titulo"`
         Autor           string  `json:"autor"`
         Descripcion     string  `json:"descripcion"`
-        Valoracion      float64 `json:"valoracion"`
+        Valoracion      int `json:"valoracion"`
         Anio            int     `json:"anio"`
         GeneroPrincipal string  `json:"genero_principal"`
     }

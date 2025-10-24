@@ -1,0 +1,21 @@
+templ UserTable(users []db.User, sortColumn, sortOrder string) {
+    <table id="users-table">
+    <thead>
+    <tr>
+    @SortableHeader("id", "ID", sortColumn, sortOrder)
+    @SortableHeader("name", "Name", sortColumn, sortOrder)
+    @SortableHeader("email", "Email", sortColumn, sortOrder)
+    </tr>
+    </thead>
+    <tbody>
+    for _, user := range users {
+    <tr>
+    <td>{ fmt.Sprint(user.ID) }</td> <td>{ user.Name }</td> <td>{ user.Email }</td>
+    </tr>
+    }
+    if len(users) == 0 {
+    <tr> <td colspan="3">No users found.</td> </tr>
+    }
+    </tbody>
+    </table>
+}
