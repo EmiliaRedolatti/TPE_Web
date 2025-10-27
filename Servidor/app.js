@@ -55,7 +55,41 @@ botonLista.addEventListener("click", () => {
     }
 });
 
+const botonAgregar = document.getElementById("boton-agregar")
+ const form = document.getElementById("formulario-libro")
 
+botonAgregar.addEventListener("click", (event) => {
+    event.preventDefault(); // Evita recargar la página
 
+  //Busca la estrella selecciona y le asigna el numero o va por defecto
+  const valoracionInput = document.querySelector('input[name="valoracion"]:checked');
+  const valoracion = valoracionInput ? parseInt(valoracionInput.value) : 1;
 
+  const libro = {
+    titulo: document.getElementById("titulo").value,
+    autor: document.getElementById("autor").value,
+    descripcion: document.getElementById("descripcion").value,
+    valoracion: valoracion,
+    anio: parseInt(document.getElementById("anioPublicacion").value),
+    genero_principal: document.getElementById("genero").value // 👈 CAMBIO IMPORTANTE
+  };
 
+  fetch("/libros", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(libro)
+  })
+    .then(response => {
+      if (!response.ok) throw new Error("Error al agregar el libro");
+      return response.json();
+    })
+    .then(data => {
+      console.log("Libro agregado correctamente:", data);
+      form.reset(); // Limpia el formulario
+    })
+    .catch(error => {
+      console.error("Hubo un problema con la petición:", error);
+    });
+})

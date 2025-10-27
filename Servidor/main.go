@@ -129,7 +129,7 @@ func createLibro(w http.ResponseWriter, r *http.Request) {
         Titulo         string  `json:"titulo"`
         Autor          string  `json:"autor"`
         Descripcion    string  `json:"descripcion"`
-        Valoracion     float64 `json:"valoracion"`
+        Valoracion     int     `json:"valoracion"`
         Anio           int     `json:"anio"`
         GeneroPrincipal string `json:"genero_principal"`
     }
