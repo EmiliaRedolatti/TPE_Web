@@ -1,36 +1,60 @@
 body {
-    font-family: Arial, sans-serif;
-    background: #f8f6ed;
+    font-family: 'Montserrat';
+    background: #946c4c;
     margin: 0;
     padding: 0;
     text-align: center;
-    color: #333;
+    color: #3d2109;
 }
 
 header {
-    background-color: #CFC8B4;
-    color: rgb(0, 0, 0);
-    padding: 30px 20px;
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
+    background-image: url('./Imagenes/libro2.jpeg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Montserrat';
+    color: #fff;
 }
 
-header img {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 10px;
+.hero-text {
+    display: flex;
+    flex-direction: column; /* título arriba, subtítulo debajo */
+    align-items: center;
+    gap: 1px; /* espacio entre h1 y h2 */
+    padding: 15px 25px; 
 }
 
-h1 {
-    margin: 0;
-    font-size: 2.3rem;
+.titulo-header {
+    padding: 5px 10px;
+    font-size: 4rem;
+    font-weight: 400;
 }
 
-p {
-    font-size: 1.2rem;
-    margin-top: 10px;
+.main-content {
+    display: flex;       /* activa flexbox */
+    gap: 30px;           /* espacio entre columnas */
+    padding: 20px;
 }
 
+.col {
+    flex: 1;             /* ambas columnas ocupan el mismo espacio */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Responsive: en pantallas pequeñas se apilan verticalmente */
+@media (max-width: 900px) {
+    .main-content {
+        flex-direction: column;
+    }
+}
+
+/* Estrellas*/
 p.clasificacion {
   position: relative;
   overflow: hidden;
@@ -53,3 +77,4 @@ p.clasificacion label:hover ~ label,
 p.clasificacion input:checked ~ label {
   color: rgb(247, 208, 35);
 }
+
