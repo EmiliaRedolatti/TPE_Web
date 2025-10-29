@@ -1,80 +1,141 @@
+/* Estilos para el cuerpo de la página (body) */
 body {
-    font-family: 'Montserrat';
-    background: #946c4c;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    color: #3d2109;
+    font-family: 'Montserrat'; /* Fuente principal para el texto */
+    background: #926f53;       /* Color de fondo para toda la página (marrón) */
+    margin: 0;                 /* Elimina el margen por defecto del body */
+    padding: 0;                /* Elimina el padding por defecto del body */
+    text-align: center;        /* Centra el texto dentro del body */
+    color: #3d2109;            /* Color de texto por defecto (marrón oscuro) */
 }
 
+/* Estilos para el encabezado (header) - Generalmente la sección superior */
 header {
-    background-image: url('./Imagenes/libro2.jpeg');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-family: 'Montserrat';
-    color: #fff;
+    background-image: url('./Imagenes/libro2.jpeg'); /* Imagen de fondo para el encabezado */
+    background-size: cover;          /* Asegura que la imagen cubra todo el área sin repetirse */
+    background-position: center;     /* Centra la imagen de fondo */
+    display: flex;                   /* Activa Flexbox para alinear el contenido interno */
+    justify-content: center;         /* Centra horizontalmente el contenido (hero-text) */
+    align-items: center;             /* Centra verticalmente el contenido (hero-text) */
+    text-align: center;              /* Centra el texto dentro del header (redundante con el flex, pero bueno) */
+    font-family: 'Montserrat';       /* Fuente para el texto dentro del header */
+    color: #fff;                     /* Color de texto (blanco) para contraste con la imagen de fondo */
+    /* Nota: Se podría añadir un 'height' mínimo aquí si se desea un banner más alto */
 }
 
+/* Contenedor del texto principal dentro del encabezado */
 .hero-text {
     display: flex;
-    flex-direction: column; /* título arriba, subtítulo debajo */
-    align-items: center;
-    gap: 1px; /* espacio entre h1 y h2 */
-    padding: 15px 25px; 
+    flex-direction: column; /* Coloca los elementos (título y subtítulo) uno encima del otro */
+    align-items: center;    /* Centra horizontalmente el texto (h1 y h2) */
+    gap: 1px;               /* Espacio mínimo entre el h1 y el h2 (casi pegados) */
+    padding: 15px 25px;     /* Relleno alrededor del texto para separarlo de los bordes del header */
+    /* Nota: Se podría añadir un 'background-color' con transparencia para mejorar la legibilidad */
 }
 
+/* Estilos para el título principal dentro del encabezado */
 .titulo-header {
-    padding: 5px 10px;
-    font-size: 4rem;
-    font-weight: 400;
+    padding: 5px 10px;    /* Relleno alrededor del texto del título */
+    font-size: 4rem;      /* Tamaño de fuente grande */
+    font-weight: 400;     /* Grosor de la fuente (normal o un poco más delgado) */
 }
 
+/* Contenedor principal del contenido, diseñado para ser dividido en columnas */
 .main-content {
-    display: flex;       /* activa flexbox */
-    gap: 30px;           /* espacio entre columnas */
-    padding: 20px;
+    display: flex;       /* Activa Flexbox para crear las columnas */
+    gap: 30px;           /* Espacio horizontal entre las columnas */
+    padding: 20px;       /* Relleno alrededor de todo el contenido principal */
 }
 
+/* Estilos para cada columna dentro de .main-content */
 .col {
-    flex: 1;             /* ambas columnas ocupan el mismo espacio */
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    flex: 1;             /* Asigna el mismo factor de crecimiento, haciendo que ambas columnas ocupen el mismo espacio */
+    background-color: #dac2aeb1; /* Fondo blanco para las columnas */
+    padding: 20px;          /* Relleno interno para el contenido de la columna */
+    border-radius: 12px;    /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra sutil para dar un efecto de elevación */
 }
 
-/* Responsive: en pantallas pequeñas se apilan verticalmente */
+/* Consulta de medios (Media Query) para diseño responsivo */
+/* Se aplica cuando el ancho de la ventana es de 900px o menos (para pantallas pequeñas/móviles) */
 @media (max-width: 900px) {
     .main-content {
-        flex-direction: column;
+        flex-direction: column; /* Cambia la dirección de Flexbox para apilar las columnas verticalmente */
     }
 }
 
-/* Estrellas*/
-p.clasificacion {
-  position: relative;
-  overflow: hidden;
-  display: inline table;
-  top: 5px
+/* --- Formulario--- */
+
+/* Contenedor principal del formulario para mejor espaciado */
+#formulario-libro {
+    display: flex;
+    flex-direction: column; /* Apilamos los grupos de campos */
+    align-items: center; /* Centra todos los elementos hijos horizontalmente */
 }
 
+/* Estilo de las etiquetas */
+#formulario-libro label {
+    font-weight: bold;
+}
+
+/* --- Estilos para el sistema de clasificación por estrellas --- */
+p.clasificacion {
+  display: flex;
+  justify-content: center;     /* Centra horizontalmente */
+  flex-direction: row-reverse; /* Invierte el orden visual para que funcione el hover de izquierda a derecha */
+  position: relative;
+  overflow: hidden;
+  top: 5px;
+}
+
+/* Ocultar inputs */
 p.clasificacion input {
   position: absolute;
   top: -100px;
 }
 
+/* Estilo base de las estrellas */
 p.clasificacion label {
-  float: right;
-  color: #333;
+  color: #3d2109;              /* Color base */
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
 }
 
+/* Efecto hover y selección (funciona de izq a der gracias al row-reverse) */
 p.clasificacion label:hover,
 p.clasificacion label:hover ~ label,
 p.clasificacion input:checked ~ label {
-  color: rgb(247, 208, 35);
+  color: rgb(247, 208, 35); /* Amarillo/dorado */
 }
 
+/* Estilo de los campos de texto e inputs de número */
+#formulario-libro input[type="text"],
+#formulario-libro input[type="number"],
+#formulario-libro textarea {
+    width: 100%; /* El 100% del contenedor */
+    padding: 8px;
+    border: 1.5px solid #926f53; /* Borde más sutil y acorde */
+    border-radius: 6px;
+    background-color: #f7f3ed; /* Fondo muy claro para el input */
+    box-sizing: border-box; /* Asegura que el padding no afecte el width total */
+    transition: border-color 0.3s;
+}
+
+/* Estilo del botón */
+#boton-agregar {
+    background-color: #6a493b; /* Un color más oscuro y rico */
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+    margin: 15px auto; /* Centra horizontalmente */
+}
+
+#boton-agregar:hover {
+    background-color: #926f53; /* Cambio de color al pasar el mouse */
+    transform: translateY(-1px); /* Efecto 3D sutil */
+}
