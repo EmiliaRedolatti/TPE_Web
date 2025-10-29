@@ -1,129 +1,108 @@
-/* Estilos para el cuerpo de la página (body) */
+/* --- Estilo general de la página --- */
 body {
-    font-family: 'Montserrat'; /* Fuente principal para el texto */
-    background: #926f53;       /* Color de fondo para toda la página (marrón) */
-    margin: 0;                 /* Elimina el margen por defecto del body */
-    padding: 0;                /* Elimina el padding por defecto del body */
-    text-align: center;        /* Centra el texto dentro del body */
-    color: #3d2109;            /* Color de texto por defecto (marrón oscuro) */
+    font-family: 'Montserrat';
+    background: #926f53;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #3d2109;
 }
 
-/* Estilos para el encabezado (header) - Generalmente la sección superior */
+/* --- Encabezado con imagen de fondo --- */
 header {
-    background-image: url('./Imagenes/libro2.jpeg'); /* Imagen de fondo para el encabezado */
-    background-size: cover;          /* Asegura que la imagen cubra todo el área sin repetirse */
-    background-position: center;     /* Centra la imagen de fondo */
-    display: flex;                   /* Activa Flexbox para alinear el contenido interno */
-    justify-content: center;         /* Centra horizontalmente el contenido (hero-text) */
-    align-items: center;             /* Centra verticalmente el contenido (hero-text) */
-    text-align: center;              /* Centra el texto dentro del header (redundante con el flex, pero bueno) */
-    font-family: 'Montserrat';       /* Fuente para el texto dentro del header */
-    color: #fff;                     /* Color de texto (blanco) para contraste con la imagen de fondo */
-    /* Nota: Se podría añadir un 'height' mínimo aquí si se desea un banner más alto */
+    background-image: url('./Imagenes/libro2.jpeg');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: #fff;
 }
 
-/* Contenedor del texto principal dentro del encabezado */
-.hero-text {
+/* Texto dentro del encabezado */
+.texto-header {
     display: flex;
-    flex-direction: column; /* Coloca los elementos (título y subtítulo) uno encima del otro */
-    align-items: center;    /* Centra horizontalmente el texto (h1 y h2) */
-    gap: 1px;               /* Espacio mínimo entre el h1 y el h2 (casi pegados) */
-    padding: 15px 25px;     /* Relleno alrededor del texto para separarlo de los bordes del header */
-    /* Nota: Se podría añadir un 'background-color' con transparencia para mejorar la legibilidad */
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 30px;
 }
 
-/* Estilos para el título principal dentro del encabezado */
 .titulo-header {
-    padding: 5px 10px;    /* Relleno alrededor del texto del título */
-    font-size: 4rem;      /* Tamaño de fuente grande */
-    font-weight: 400;     /* Grosor de la fuente (normal o un poco más delgado) */
+    padding: 5px 10px;
+    font-size: 4rem;
+    font-weight: 400;
 }
 
-/* Contenedor principal del contenido, diseñado para ser dividido en columnas */
+/* --- Contenido principal en columnas --- */
 .main-content {
-    display: flex;       /* Activa Flexbox para crear las columnas */
-    gap: 30px;           /* Espacio horizontal entre las columnas */
-    padding: 20px;       /* Relleno alrededor de todo el contenido principal */
+    display: flex;
+    gap: 30px;
+    padding: 20px;
 }
 
-/* Estilos para cada columna dentro de .main-content */
 .col {
-    flex: 1;             /* Asigna el mismo factor de crecimiento, haciendo que ambas columnas ocupen el mismo espacio */
-    background-color: #dac2aeb1; /* Fondo blanco para las columnas */
-    padding: 20px;          /* Relleno interno para el contenido de la columna */
-    border-radius: 12px;    /* Bordes redondeados */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra sutil para dar un efecto de elevación */
+    flex: 1;
+    background-color: #dac2aeb1;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* Consulta de medios (Media Query) para diseño responsivo */
-/* Se aplica cuando el ancho de la ventana es de 900px o menos (para pantallas pequeñas/móviles) */
+/* Diseño responsivo */
 @media (max-width: 900px) {
     .main-content {
-        flex-direction: column; /* Cambia la dirección de Flexbox para apilar las columnas verticalmente */
+        flex-direction: column;
     }
 }
 
-/* --- Formulario--- */
-
-/* Contenedor principal del formulario para mejor espaciado */
+/* --- Formulario --- */
 #formulario-libro {
     display: flex;
-    flex-direction: column; /* Apilamos los grupos de campos */
-    align-items: center; /* Centra todos los elementos hijos horizontalmente */
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }
 
-/* Estilo de las etiquetas */
 #formulario-libro label {
     font-weight: bold;
 }
 
-/* --- Estilos para el sistema de clasificación por estrellas --- */
-p.clasificacion {
-  display: flex;
-  justify-content: center;     /* Centra horizontalmente */
-  flex-direction: row-reverse; /* Invierte el orden visual para que funcione el hover de izquierda a derecha */
-  position: relative;
-  overflow: hidden;
-  top: 5px;
-}
-
-/* Ocultar inputs */
-p.clasificacion input {
-  position: absolute;
-  top: -100px;
-}
-
-/* Estilo base de las estrellas */
-p.clasificacion label {
-  color: #3d2109;              /* Color base */
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-/* Efecto hover y selección (funciona de izq a der gracias al row-reverse) */
-p.clasificacion label:hover,
-p.clasificacion label:hover ~ label,
-p.clasificacion input:checked ~ label {
-  color: rgb(247, 208, 35); /* Amarillo/dorado */
-}
-
-/* Estilo de los campos de texto e inputs de número */
+/* Campos de texto */
 #formulario-libro input[type="text"],
 #formulario-libro input[type="number"],
 #formulario-libro textarea {
-    width: 100%; /* El 100% del contenedor */
+    width: 100%;
     padding: 8px;
-    border: 1.5px solid #926f53; /* Borde más sutil y acorde */
-    border-radius: 6px;
-    background-color: #f7f3ed; /* Fondo muy claro para el input */
-    box-sizing: border-box; /* Asegura que el padding no afecte el width total */
-    transition: border-color 0.3s;
+    border: 1.5px solid #926f53;
+    border-radius: 11px;
+    background-color: #f7f3ed;
 }
 
-/* Estilo del botón */
-#boton-agregar {
-    background-color: #6a493b; /* Un color más oscuro y rico */
+/* --- Sistema de estrellas --- */
+p.clasificacion {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+p.clasificacion input {
+    position: absolute;
+    top: -100px;
+}
+
+p.clasificacion label {
+    color: #3d2109;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+p.clasificacion label:hover,
+p.clasificacion label:hover ~ label,
+p.clasificacion input:checked ~ label {
+    color: rgb(247, 208, 35);
+}
+
+/* --- Botones --- */
+.btn {
+    background-color: #6a493b;
     color: #fff;
     border: none;
     padding: 12px 25px;
@@ -132,10 +111,73 @@ p.clasificacion input:checked ~ label {
     font-size: 1rem;
     font-weight: bold;
     transition: background-color 0.3s, transform 0.1s;
-    margin: 15px auto; /* Centra horizontalmente */
+    margin: 15px auto;
 }
 
-#boton-agregar:hover {
-    background-color: #926f53; /* Cambio de color al pasar el mouse */
-    transform: translateY(-1px); /* Efecto 3D sutil */
+.btn:hover {
+    background-color: #926f53;
+    transform: translateY(-1px);
+}
+
+/* --- Tabla de libros --- */
+#tabla-libros {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Montserrat';
+    color: #3d2109;
+    background-color: #f7f3ed;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+#tabla-libros thead tr {
+    background-color: #6a493b;
+    color: #fff;
+}
+
+#tabla-libros th {
+    padding: 12px 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+#tabla-libros td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #dac2ae;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* Rayado de filas y hover */
+#tabla-libros tbody tr:nth-child(even) {
+    background-color: #e8e2d8;
+}
+
+#tabla-libros tbody tr:hover {
+    background-color: #dac2ae;
+}
+
+/* Columnas específicas */
+#tabla-libros td:nth-child(4) {
+    max-width: 250px;
+    white-space: normal;
+}
+
+#tabla-libros td:nth-child(5) {
+    text-align: center;
+}
+
+/* Botón de eliminar */
+.boton-eliminar {
+    background-color: #7a2727;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s;
+}
+
+.boton-eliminar:hover {
+    background-color: #581d1d;
 }

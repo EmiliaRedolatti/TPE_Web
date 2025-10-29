@@ -20,7 +20,7 @@ function mostrarListaLibros() {
     .then(response => response.json())
     .then(books => {
       let html = `
-        <table id="books-table">
+        <table id="tabla-libros">
           <thead>
             <tr>
               <th>ID</th>
