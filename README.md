@@ -1,4 +1,10 @@
 # TPE_Web
+Integrantes:
+* Lucia Goncalves Dias
+* Abril Iglesias
+* Emilia Redolatti
+
+
 Al descargarlo te encontras en la rama main la cual este desactualizada, para poder probar la correcta ejecucion del tp3 y del tp4, se debe ir a la rama tp4, con el siguiente comando:
 
 `` git switch tp4 ``
