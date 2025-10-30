@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-echo "========== TEST: POST /libros =========="
+echo "--------- TEST: POST /libros (El nombre del viento) ---------"
 curl -s -X POST http://localhost:8080/libros \
   -H "Content-Type: application/json" \
   -d '{
@@ -13,7 +12,8 @@ curl -s -X POST http://localhost:8080/libros \
     "genero_principal": "Fantasía"
   }'
 
-echo "========== TEST: POST /libros =========="
+echo ""
+echo "--------- TEST: POST /libros (Orgullo y prejuicio) ---------"
 curl -s -X POST http://localhost:8080/libros \
   -H "Content-Type: application/json" \
   -d '{
@@ -23,16 +23,42 @@ curl -s -X POST http://localhost:8080/libros \
     "valoracion": 4,
     "anio": 1813,
     "genero_principal": "Romance"
-  }' 
+  }'
 
-echo "========== TEST: GET /libros =========="
-curl -s -X GET http://localhost:8080/libros
+echo ""
+echo "--------- TEST: POST /libros (El Aleph) ---------"
+curl -s -X POST http://localhost:8080/libros \
+  -H "Content-Type: application/json" \
+  -d '{
+    "titulo": "El Aleph",
+    "autor": "Jorge Luis Borges",
+    "descripcion": "Una colección de cuentos que exploran la infinidad y la metafísica.",
+    "valoracion": 1,
+    "anio": 1949,
+    "genero_principal": "Ficción"
+  }'
 
-echo "========== TEST: GET /libros/1 =========="
+echo ""
+echo "--------- TEST: GET /libro/1 (El nombre del viento) ---------"
 curl -s -X GET http://localhost:8080/libro/1
 
-echo "========== TEST: DELETE /libros/2 =========="
+echo ""
+echo "--------- TEST: UPDATE /libro/1 (a El Principito) ---------"
+curl -s -X PUT http://localhost:8080/libro/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "titulo": "El Principito (Edición 2025)",
+    "autor": "Antoine de Saint-Exupéry",
+    "descripcion": "Una nueva edición restaurada del clásico universal.",
+    "valoracion": 2,
+    "anio": 2025,
+    "genero_principal": "Fábula"
+  }'
+
+echo ""
+echo "--------- TEST: DELETE /libro/2 (Orgullo y prejuicio) ---------"
 curl -s -X DELETE http://localhost:8080/libro/2
 
-echo "========== TEST FINAL: GET /libros =========="
+echo ""
+echo "--------- TEST FINAL: GET /libros (Debería mostrar 2 libros) ---------"
 curl -s -X GET http://localhost:8080/libros
