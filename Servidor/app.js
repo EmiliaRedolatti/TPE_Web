@@ -97,16 +97,26 @@ const form = document.getElementById("formulario-libro");
 botonAgregar.addEventListener("click", (event) => {
   event.preventDefault();
 
+  // Validar campos requeridos
+  const titulo = document.getElementById("titulo").value.trim();
+  const autor = document.getElementById("autor").value.trim();
+  const descripcion = document.getElementById("descripcion").value.trim();
+  const anio = document.getElementById("anioPublicacion").value.trim();
+  const genero = document.getElementById("genero").value.trim();
   const valoracionInput = document.querySelector('input[name="valoracion"]:checked');
-  const valoracion = valoracionInput ? parseInt(valoracionInput.value) : 1;
+
+  if (!titulo || !autor || !anio || !genero || !valoracionInput) {
+    alert("Por favor, complete todos los campos obligatorios.");
+    return; // No continúa si falta algo
+  }
 
   const libro = {
-    titulo: document.getElementById("titulo").value.trim(),
-    autor: document.getElementById("autor").value.trim(),
-    descripcion: document.getElementById("descripcion").value.trim(),
-    valoracion: valoracion,
-    anio: parseInt(document.getElementById("anioPublicacion").value),
-    genero_principal: document.getElementById("genero").value
+    titulo: titulo,
+    autor: autor,
+    descripcion: descripcion,
+    valoracion: parseInt(valoracionInput.value),
+    anio: parseInt(anio),
+    genero_principal: genero
   };
 
   fetch("/libros", {
