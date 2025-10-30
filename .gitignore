@@ -1,2 +1,9 @@
-# Ignorar la carpeta sqlc dentro de bd
-bd/sqlc/
+# Ignorar binarios y temporales
+*.log
+*.tmp
+*.out
+
+# Ignorar carpetas
+node_modules/
+Base_Datos/data/
+Servidor/tmp/
