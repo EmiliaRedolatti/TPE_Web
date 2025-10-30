@@ -105,7 +105,7 @@ botonAgregar.addEventListener("click", (event) => {
   const genero = document.getElementById("genero").value.trim();
   const valoracionInput = document.querySelector('input[name="valoracion"]:checked');
 
-  if (!titulo || !autor || !anio || !genero || !valoracionInput) {
+  if (!titulo || !autor || !anio || !genero || !descripcion) {
     alert("Por favor, complete todos los campos obligatorios.");
     return; // No continúa si falta algo
   }

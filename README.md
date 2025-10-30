@@ -24,4 +24,3 @@ Aca para correrlo, sali de la carpeta y entra a la se Servido y ejecutar.
 
 Una vez que se termina de usar hay que dar de baja el contenedor, dento de la carpeta Base_Datos
 docker compose down
-
