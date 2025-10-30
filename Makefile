@@ -15,16 +15,20 @@ run:
 test:
 	@echo "--- 1. Limpiando servicios anteriores (por si acaso) ---"
 	make stop
-	
+	@docker volume rm base_datos_db_data 2>/dev/null || true
+
 	@echo "--- 2. Iniciando servicios (Docker + Go) ---"
 	make run
-	
+
 	@echo "--- 3. Esperando 3 segundos a que el servidor Go arranque ---"
 	sleep 3
-	
+
 	@echo "--- 4. Dando permisos y ejecutando tests ---"
 	chmod +x test.sh
 	@./test.sh
+
+	@echo "--- 5. Dando de baja base y servidor ---"
+	make stop
 
 stop:
 	@echo "5. Deteniendo servicios..."
