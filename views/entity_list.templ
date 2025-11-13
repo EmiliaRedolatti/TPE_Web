@@ -1,0 +1,74 @@
+package views
+
+import (
+    "database/sql"
+    "fmt"
+    sqlc "tpe/Base_Datos/bd/sqlc"
+)
+
+func safeInt(n any) string {
+    switch v := n.(type) {
+    case sql.NullInt32:
+        if v.Valid {
+            return fmt.Sprint(v.Int32)
+        }
+        return "-"
+    case int32:
+        return fmt.Sprint(v)
+    default:
+        return "-"
+    }
+}
+
+func safeString(s any) string {
+    switch v := s.(type) {
+    case sql.NullString:
+        if v.Valid {
+            return v.String
+        }
+        return "-"
+    case string:
+        return v
+    default:
+        return "-"
+    }
+}
+
+templ EntityList(libros []sqlc.Libro) {
+    <section class="col lista-libros">
+        <h2>Lista de Libros</h2>
+        <button id="boton-listar" class="btn">Listar libros</button>
+        <div id="lista-libros">
+            <table id="tabla-libros">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Descripción</th>
+                        <th>Valoración</th>
+                        <th>Año</th>
+                        <th>Género principal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    for _, libro := range libros {
+                        <tr>
+                            <td>{ libro.ID }</td>
+                            <td>{ libro.Titulo }</td>
+                            <td>{ libro.Autor }</td>
+                            <td>{ libro.Descripcion }</td>
+                            <td>{ safeInt(libro.Valoracion) }</td>
+                            <td>{ safeInt(libro.Anio) }</td>
+                            <td>{ safeString(libro.GeneroPrincipal) }</td>
+                            <td>
+                                <button class="boton-eliminar" data-id="${book.id}">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}

@@ -1,0 +1,30 @@
+package views
+
+import (
+    sqlc "tpe/Base_Datos/bd/sqlc"
+)
+
+templ Home(libros []sqlc.Libro, mostrar bool) {
+    <div class="main-content">
+        @Entity_form()
+
+        <section>
+            <form method="GET" action="/">
+                <input type="hidden" name="mostrar" value={!mostrar} />
+                <button type="submit" class="btn">
+                    if mostrar { 
+                        Ocultar lista 
+                    }else{
+                        Mostrar lista
+                    }
+                </button>
+            </form>
+        </section>
+
+        if mostrar {
+            @EntityList(libros)
+        } else {
+            <p>La lista está oculta. Hacé clic en “Mostrar lista” para verla.</p>
+        }
+    </div>
+}

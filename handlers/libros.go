@@ -1,72 +1,41 @@
-package main
+package handlers
 
 import (
+    
     "database/sql"
+    "encoding/json"
     "log"
     "net/http"
-    "os"
-    "encoding/json"
-    sqlc "tpe/Base_Datos/bd/sqlc" // importa el paquete generado por sqlc
-    _ "github.com/lib/pq"
-    "strings"
     "strconv"
+    "strings"
+    sqlc "tpe/Base_Datos/bd/sqlc"
+    "tpe/views"
+    "github.com/a-h/templ"
 )
 
-var queries *sqlc.Queries
+var Queries *sqlc.Queries
 
-func main() {
+func LayoutHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context() // mejor que context.Background()
 
-    //Conectar a la base de datos PostgreSQL
-    connStr := "postgresql://abril:1234@localhost:5432/bd?sslmode=disable"
-    dbConn, err := sql.Open("postgres", connStr)
-    if err != nil {
-        log.Fatal("Error conectando a DB:", err)
-    }
-    defer dbConn.Close()
+	// Obtenemos los libros
+	libros, err := Queries.ListLibros(ctx)
+	if err != nil {
+		http.Error(w, "Error al obtener libros: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-    queries = sqlc.New(dbConn) //instancia de sqlc
+	// Leemos si hay un parámetro ?mostrar=true en la URL
+	mostrar := r.URL.Query().Get("mostrar") == "true"
 
-    // 1. Handler para servir archivos estáticos (CSS, JS, Imágenes)
-    // El prefijo "/static/" debe coincidir con cómo se referencian los archivos en el HTML
-    fs := http.FileServer(http.Dir("./static"))
-    http.Handle("/static/", http.StripPrefix("/static/", fs))
-    
-    // Sirve style.css
-    http.Handle("/style.css", http.FileServer(http.Dir(".")))
-
-    // Sirve app.js
-    http.Handle("/app.js", http.FileServer(http.Dir(".")))
-
-    // Sirve la carpeta Imagenes
-    // NOTA: Usamos http.StripPrefix porque la ruta en HTML comienza con /Imagenes/
-    http.Handle("/Imagenes/", http.StripPrefix("/Imagenes/", http.FileServer(http.Dir("."))))
-
-    //Leer index.html
-    htmlContent, err := os.ReadFile("index.html")
-    if err != nil {
-        log.Fatal("Error al leer index.html:", err)
-    }
-
-    //Handler principal que sirve index.html
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        w.Header().Set("Content-Type", "text/html; charset=utf-8")
-        w.Write(htmlContent)
-    })
-
-    //Handler /libros
-    http.HandleFunc("/libros", librosHandler)
-    http.HandleFunc("/libro/", libroHandler)
-
-    //Iniciar servidor
-    port := ":8080"
-    log.Printf("Servidor escuchando en http://localhost%s\n", port)
-    log.Fatal(http.ListenAndServe(port, nil))
+	// Renderizamos pasando ambos argumentos
+	page := views.Layout("Huella", views.Home(libros, mostrar))
+	templ.Handler(page).ServeHTTP(w, r)
 }
 
-//----------------------------FIN MAIN-----------------------------------------
 
 // Manejador para /libros
-func librosHandler(w http.ResponseWriter, r *http.Request) {
+func LibrosHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 		case http.MethodGet:
 			getLibros(w, r)
@@ -78,7 +47,7 @@ func librosHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Manejador para /libro/{id}
-func libroHandler(w http.ResponseWriter, r *http.Request) {
+func LibroHandler(w http.ResponseWriter, r *http.Request) {
 	// Extraer ID del path
 	parts := strings.Split(r.URL.Path, "/")
 	if len(parts) != 3 {
@@ -104,13 +73,12 @@ func libroHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-
 // GET /products - Listar todos los libros desde la DB
 func getLibros(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
 
     // Llamada a sqlc
-    libros, err := queries.ListLibros(r.Context())
+    libros, err := Queries.ListLibros(r.Context())
     if err != nil {
         http.Error(w, "Error obteniendo libros", http.StatusInternalServerError)
         return
@@ -140,14 +108,14 @@ func createLibro(w http.ResponseWriter, r *http.Request) {
     }
 
     //Llamar a sqlc para insertar el libro
-    libro, err := queries.CreateLibro(r.Context(), sqlc.CreateLibroParams{
+    libro, err := Queries.CreateLibro(r.Context(), sqlc.CreateLibroParams{
         Titulo:         input.Titulo,
         Autor:          input.Autor,
         Descripcion:    input.Descripcion,
         Valoracion:     sql.NullInt32{
                         Int32: int32(input.Valoracion),
                         Valid: true,
-                        },
+                     },
         Anio:           int32(input.Anio),
         GeneroPrincipal: input.GeneroPrincipal,
     })
@@ -167,7 +135,7 @@ func getLibro(w http.ResponseWriter, r *http.Request, id int32) {
      w.Header().Set("Content-Type", "application/json")
 
      //llamar a sqlc
-	libro, err := queries.GetLibroByID(r.Context(), id)
+	libro, err := Queries.GetLibroByID(r.Context(), id)
 	if err != nil {
         http.Error(w, "Error obteniendo libros", http.StatusInternalServerError)
         return
@@ -210,7 +178,7 @@ func updateLibro(w http.ResponseWriter, r *http.Request, id int) {
     }
 
     // Ejecutar actualización en la base de datos
-    err := queries.UpdateLibro(r.Context(), params)
+    err := Queries.UpdateLibro(r.Context(), params)
     if err != nil {
         if err == sql.ErrNoRows {
             http.Error(w, "Libro no encontrado", http.StatusNotFound)
@@ -230,7 +198,7 @@ func updateLibro(w http.ResponseWriter, r *http.Request, id int) {
 // DELETE /libro/{id} - Eliminar libro
 func deleteLibro(w http.ResponseWriter, r *http.Request, id int32) {
     // Intentar eliminar el libro
-    err := queries.DeleteLibro(r.Context(), id)
+    err := Queries.DeleteLibro(r.Context(), id)
     if err != nil {
         log.Println("Error al eliminar libro:", err)
         http.Error(w, "Error eliminando libro", http.StatusInternalServerError)
@@ -238,5 +206,3 @@ func deleteLibro(w http.ResponseWriter, r *http.Request, id int32) {
     }
     w.WriteHeader(http.StatusNoContent)
 }
-
-
