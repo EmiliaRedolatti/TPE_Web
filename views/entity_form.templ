@@ -3,7 +3,7 @@ package views
 templ Entity_form(){
     <section class="col agregar-libro">
         <h2>Agregar Libro</h2>
-        <form id="formulario-libro">
+        <form id="formulario-libro" method="post" action="/create">
             <div class="form-group">
             <label for="titulo">Titulo:</label>
             <input type="text" id="titulo" name="titulo" required>

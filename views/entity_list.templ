@@ -34,41 +34,25 @@ func safeString(s any) string {
     }
 }
 
-templ EntityList(libros []sqlc.Libro) {
+templ Entity_List(libros []sqlc.Libro, mostrar bool) {
+
     <section class="col lista-libros">
         <h2>Lista de Libros</h2>
-        <button id="boton-listar" class="btn">Listar libros</button>
-        <div id="lista-libros">
-            <table id="tabla-libros">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Título</th>
-                        <th>Autor</th>
-                        <th>Descripción</th>
-                        <th>Valoración</th>
-                        <th>Año</th>
-                        <th>Género principal</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    for _, libro := range libros {
-                        <tr>
-                            <td>{ libro.ID }</td>
-                            <td>{ libro.Titulo }</td>
-                            <td>{ libro.Autor }</td>
-                            <td>{ libro.Descripcion }</td>
-                            <td>{ safeInt(libro.Valoracion) }</td>
-                            <td>{ safeInt(libro.Anio) }</td>
-                            <td>{ safeString(libro.GeneroPrincipal) }</td>
-                            <td>
-                                <button class="boton-eliminar" data-id="${book.id}">Eliminar</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        <form method="GET" action="/">
+            <input type="hidden" name="mostrar" value={!mostrar} />
+            <button id="boton-listar" class="btn">
+                if mostrar { 
+                    Ocultar lista 
+                }else{
+                    Mostrar lista
+                }
+            </button>
+        </form>
+
+        if mostrar {
+            @Lista_libros(libros)
+        } else {
+            <p>La lista está oculta. Hacé clic en “Mostrar lista” para verla.</p>
+        }
     </section>
 }

@@ -41,4 +41,28 @@ Levantar la base de datos, hacer el sqlc generate y levantar el servidor en segu
 Cuando se termine de usar hacer el siguiente comando para matar el servidor
 
 ``make stop``
+-------------------------------------------------------------------------------------------------------
+ <form method="DELETE" action="/">
+            <button id="boton-eliminar" class="btn" data-id="${book.id}>
+                err := Queries.DeleteLibro(r.Context(), id)
+                 if err != nil {
+                     log.Println("Error al eliminar libro:", err)
+                     http.Error(w, "Error eliminando libro", http.StatusInternalServerError)
+                     return
+                 }
+            </button>
+        </form>
 
+// // DELETE /libro/{id} - Eliminar libro
+// func deleteLibro(w http.ResponseWriter, r *http.Request, id int32) {
+//     // Intentar eliminar el libro
+//     err := Queries.DeleteLibro(r.Context(), id)
+//     if err != nil {
+//         log.Println("Error al eliminar libro:", err)
+//         http.Error(w, "Error eliminando libro", http.StatusInternalServerError)
+//         return
+//     }
+//     w.WriteHeader(http.StatusNoContent)
+// }
+--------------------------------------------------------------------------
+//<button class="boton-eliminar" data-id="${book.id}">Eliminar</button>

@@ -1,0 +1,46 @@
+package views
+
+import (
+    sqlc "tpe/Base_Datos/bd/sqlc"
+)
+
+templ Lista_libros(libros []sqlc.Libro){
+
+    <div id="lista-libros">
+        <table id="tabla-libros">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Descripción</th>
+                    <th>Valoración</th>
+                    <th>Año</th>
+                    <th>Género principal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                for _, libro := range libros {
+                    <tr>
+                        <td>{ libro.ID }</td>
+                        <td>{ libro.Titulo }</td>
+                        <td>{ libro.Autor }</td>
+                        <td>{ libro.Descripcion }</td>
+                        <td>{ safeInt(libro.Valoracion) }</td>
+                        <td>{ safeInt(libro.Anio) }</td>
+                        <td>{ safeString(libro.GeneroPrincipal) }</td>
+                        <td>
+                            <form method="POST" action="/delete">
+                                <input type="hidden" name="id" value="DELETE">
+                                <input type="hidden" name="id" value="${book.ID}">
+                                <button class="boton-eliminar">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
