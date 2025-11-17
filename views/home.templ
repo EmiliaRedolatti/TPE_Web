@@ -6,7 +6,7 @@ import (
 
 templ Home(libros []sqlc.Libro, mostrar bool) {
     <div class="main-content">
-        @Entity_form()
+        @Entity_form(mostrar)
         @Entity_List(libros, mostrar)
     </div>
 }

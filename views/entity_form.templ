@@ -1,9 +1,14 @@
 package views
 
-templ Entity_form(){
+import (
+    "strconv"
+)
+
+templ Entity_form(mostrar bool){
     <section class="col agregar-libro">
         <h2>Agregar Libro</h2>
         <form id="formulario-libro" method="post" action="/create">
+            <input type="hidden" name="mostrar" value={ strconv.FormatBool(mostrar) } />
             <div class="form-group">
             <label for="titulo">Titulo:</label>
             <input type="text" id="titulo" name="titulo" required>

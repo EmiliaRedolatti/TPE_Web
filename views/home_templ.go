@@ -37,7 +37,7 @@ func Home(libros []sqlc.Libro, mostrar bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Entity_form().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Entity_form(mostrar).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -8,7 +8,11 @@ package views
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func Entity_form() templ.Component {
+import (
+	"strconv"
+)
+
+func Entity_form(mostrar bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -29,7 +33,20 @@ func Entity_form() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"col agregar-libro\"><h2>Agregar Libro</h2><form id=\"formulario-libro\" method=\"post\" action=\"/create\"><div class=\"form-group\"><label for=\"titulo\">Titulo:</label> <input type=\"text\" id=\"titulo\" name=\"titulo\" required></div><div class=\"form-group\"><label for=\"autor\">Autor:</label> <input type=\"text\" id=\"autor\" name=\"autor\" required></div><div class=\"form-group\"><label for=\"anioPublicacion\">Año de Publicación:</label> <input type=\"number\" id=\"anioPublicacion\" name=\"anioPublicacion\" min=\"860\" max=\"2025\" required></div><div class=\"form-group rating-group\"><label>Valoración:</label><p class=\"clasificacion\"><input id=\"star-5\" type=\"radio\" name=\"valoracion\" value=\"5\" required> <label for=\"star-5\" title=\"5 estrellas\">★</label> <input id=\"star-4\" type=\"radio\" name=\"valoracion\" value=\"4\"> <label for=\"star-4\" title=\"4 estrellas\">★</label> <input id=\"star-3\" type=\"radio\" name=\"valoracion\" value=\"3\"> <label for=\"star-3\" title=\"3 estrellas\">★</label> <input id=\"star-2\" type=\"radio\" name=\"valoracion\" value=\"2\"> <label for=\"star-2\" title=\"2 estrellas\">★</label> <input id=\"star-1\" type=\"radio\" name=\"valoracion\" value=\"1\"> <label for=\"star-1\" title=\"1 estrella\">★</label></p></div><div class=\"form-group full-width\"><label for=\"descripcion\">Descripción:</label> <textarea id=\"descripcion\" name=\"descripcion\" cols=\"50\" rows=\"4\"></textarea></div><div class=\"form-group\"><label for=\"genero\">Genero:</label> <input type=\"text\" id=\"genero\" name=\"genero\" required></div><button id=\"boton-agregar\" type=\"submit\" class=\"btn\">Agregar</button></form></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"col agregar-libro\"><h2>Agregar Libro</h2><form id=\"formulario-libro\" method=\"post\" action=\"/create\"><input type=\"hidden\" name=\"mostrar\" value=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(mostrar))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/entity_form.templ`, Line: 11, Col: 83}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\"><div class=\"form-group\"><label for=\"titulo\">Titulo:</label> <input type=\"text\" id=\"titulo\" name=\"titulo\" required></div><div class=\"form-group\"><label for=\"autor\">Autor:</label> <input type=\"text\" id=\"autor\" name=\"autor\" required></div><div class=\"form-group\"><label for=\"anioPublicacion\">Año de Publicación:</label> <input type=\"number\" id=\"anioPublicacion\" name=\"anioPublicacion\" min=\"860\" max=\"2025\" required></div><div class=\"form-group rating-group\"><label>Valoración:</label><p class=\"clasificacion\"><input id=\"star-5\" type=\"radio\" name=\"valoracion\" value=\"5\" required> <label for=\"star-5\" title=\"5 estrellas\">★</label> <input id=\"star-4\" type=\"radio\" name=\"valoracion\" value=\"4\"> <label for=\"star-4\" title=\"4 estrellas\">★</label> <input id=\"star-3\" type=\"radio\" name=\"valoracion\" value=\"3\"> <label for=\"star-3\" title=\"3 estrellas\">★</label> <input id=\"star-2\" type=\"radio\" name=\"valoracion\" value=\"2\"> <label for=\"star-2\" title=\"2 estrellas\">★</label> <input id=\"star-1\" type=\"radio\" name=\"valoracion\" value=\"1\"> <label for=\"star-1\" title=\"1 estrella\">★</label></p></div><div class=\"form-group full-width\"><label for=\"descripcion\">Descripción:</label> <textarea id=\"descripcion\" name=\"descripcion\" cols=\"50\" rows=\"4\"></textarea></div><div class=\"form-group\"><label for=\"genero\">Genero:</label> <input type=\"text\" id=\"genero\" name=\"genero\" required></div><button id=\"boton-agregar\" type=\"submit\" class=\"btn\">Agregar</button></form></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
