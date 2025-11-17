@@ -8,3 +8,9 @@
 # Ignorar la carpeta sqlc dentro de bd
 bd/sqlc/
 
+# Ignorar archivos templ
+entity_form_templ.go
+entity_list_templ.go
+home_templ.go
+layout_templ.go
+lista_libros_templ.go
