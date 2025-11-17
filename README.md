@@ -19,6 +19,6 @@ Cuando se termine de usar hacer el siguiente comando para matar el servidor
 
 ``make stop``
 
-## Lo que muestra por conlosa
+## Lo que muestra por consola
 
 En el caso de agregar o eliminar un libros, eso se informa por la consola.
