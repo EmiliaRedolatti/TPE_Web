@@ -1,58 +1,37 @@
 run:
-	@echo "Iniciando el proceso de ejecución..."
-	@echo "Levantando la Base de Datos..."
-	cd Base_Datos && docker compose up -d
-
-	@echo "Generando código de acceso a datos (sqlc)..."
-	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
-	cd Base_Datos && export PATH=$$(go env GOPATH)/bin && sqlc generate
-
-	@echo "Iniciando el Servidor Go..."
-	go run . &
+	@echo "Iniciando el proceso..."
 	
-	@echo "Abrir la página en el navegador (http://localhost:8080)..."
+	@echo "→ Levantando Base de Datos..."
+	@cd Base_Datos && docker compose up -d >/dev/null 2>&1
 
-test:
-	@echo "--- 1. Limpiando servicios anteriores (por si acaso) ---"
-	make stop
-	@docker volume rm base_datos_db_data 2>/dev/null || true
+	@echo "→ Generando código sqlc..."
+	@go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest >/dev/null 2>&1
+	@cd Base_Datos && PATH="$$(go env GOPATH)/bin:$$PATH" sqlc generate >/dev/null 2>&1
 
-	@echo "--- 2. Iniciando servicios (Docker + Go) ---"
-	make run
+	@echo "→ Generando templ..."
+	@go install github.com/a-h/templ/cmd/templ@latest >/dev/null 2>&1
+	@PATH="$$(go env GOPATH)/bin:$$PATH" templ generate >/dev/null 2>&1
 
-	@echo "--- 3. Esperando 3 segundos a que el servidor Go arranque ---"
-	sleep 3
+	@echo "→ Iniciando Servidor Go..."
+	@go run . >/dev/null 2>&1 &
 
-	@echo "--- 4. Dando permisos y ejecutando tests ---"
-	chmod +x test.sh
+	@echo "✔ Listo. Abrí http://localhost:8080"
+
+initBase:
+	@echo "--- 5. Carga datos a la base ---"
+	@chmod +x test.sh
 	@./test.sh
 
-	@echo "--- 5. Dando de baja base y servidor ---"
-	make stop
+	@echo "--- 6. Deteniendo servicios ---"
+	@$(MAKE) --no-print-directory stop
+
 
 stop:
-	@echo "5. Deteniendo servicios..."
-	# Comando robusto: usa $$ para lsof y 2>/dev/null para ignorar errores
-	@kill -9 $$(lsof -t -i:8080) 2>/dev/null || true
-	# Da de baja el docker-compose
-	cd Base_Datos && docker compose down
-	@echo "Limpieza completa."
+	@echo "Deteniendo servicios..."
+	@echo "→ Matando servidor Go (puerto 8080)..."
+	@kill -9 $$(lsof -t -i:8080) >/dev/null 2>&1 || true
 
-run5:
-	@echo "Iniciando el proceso de ejecución..."
-	@echo "Levantando la Base de Datos..."
-	cd Base_Datos && docker compose up -d
+	@echo "→ Deteniendo contenedores Docker..."
+	@cd Base_Datos && docker compose down >/dev/null 2>&1 || true
 
-	@echo "Generando código de acceso a datos (sqlc)..."
-	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
-	cd Base_Datos && export PATH=$$(go env GOPATH)/bin && sqlc generate
-
-	@echo "Generando templ..."
-	go install github.com/a-h/templ/cmd/templ@latest
-	echo 'export PATH="$$PATH:$$(go env GOPATH)/bin"' >> ~/.bashrc
-	. ~/.bashrc
-
-	@echo "Iniciando el Servidor Go..."
-	go run . &
-	
-	@echo "Abrir la página en el navegador (http://localhost:8080)..."
+	@echo "✔ Servicios detenidos y limpieza completa."

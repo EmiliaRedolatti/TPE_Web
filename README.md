@@ -11,6 +11,12 @@ Al descargarlo te encontras en la rama main la cual esta desactualizada, para po
 
 ## Para ejecutar el tp5
 
+Para poder probar la páguina correctamente, inicializar la base usando el siguiente comando:
+
+`` make initBase ``
+
+Agrega 5 libros a la base.
+
 Levantar la base de datos, hacer el sqlc generate y el templ generate, por ultimo levanta el servidor en segundo plano. 
 
 `` make run ``

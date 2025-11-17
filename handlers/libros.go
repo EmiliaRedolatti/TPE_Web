@@ -28,7 +28,7 @@ func LayoutHandler(w http.ResponseWriter, r *http.Request) {
 	mostrar := r.URL.Query().Get("mostrar") == "true"
 
 	// Renderizamos pasando ambos argumentos
-	page := views.Layout("Huella", views.Home(libros, mostrar))
+	page := views.Layout("Huella", views.Home(libros, mostrar)) //IndexPage????
 	templ.Handler(page).ServeHTTP(w, r)
 }
 
@@ -108,8 +108,7 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    log.Println("FORM DELETE:", r.Form)       // <--- LOG CLAVE
-    log.Println("ID:", r.FormValue("id"))    // <--- LOG CLAVE
+    log.Println(" Delete ID:", r.FormValue("id"))    // <--- LOG CLAVE
 
     idInt, err := strconv.Atoi(idStr)
     if err != nil {
