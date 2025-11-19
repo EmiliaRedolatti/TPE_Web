@@ -5,26 +5,49 @@ Integrantes:
 * Emilia Redolatti
 
 
-Al descargarlo te encontras en la rama main la cual esta desactualizada, para poder probar la correcta ejecucion del tp5, se debe ir a la rama tp5, con el siguiente comando:
+Al descargar el repositorio, vas a estar en la rama main, la cual no está actualizada.
+Para probar correctamente el TP5, cambiá a la rama correspondiente con:
 
 `` git switch tp5 ``
 
-## Para ejecutar el tp5
+## Como ejecutar el tp5
 
-Para poder probar la páguina correctamente, inicializar la base usando el siguiente comando:
+1. Inicializar la base de datos
+
+Para cargar la base con 5 libros iniciales y dejarla lista para usar, ejecutar:
 
 `` make initBase ``
 
-Agrega 5 libros a la base.
+2. Levantar el entorno completo
 
-Levantar la base de datos, hacer el sqlc generate y el templ generate, por ultimo levanta el servidor en segundo plano. 
+Este comando:
+* Levanta la base de datos
+* Ejecuta sqlc generate
+* Ejecuta templ generate
+* Y finalmente inicia el servidor en segundo plano
 
 `` make run ``
 
-Cuando se termine de usar hacer el siguiente comando para matar el servidor
+3. Detener el servidor
+
+Cuando se termine de trabajar:
 
 ``make stop``
 
-## Lo que muestra por consola
+## Funcionalidad de la página
 
-En el caso de agregar o eliminar un libros, eso se informa por la consola.
+* Agregar libros
+
+Completando el formulario y presionando “Agregar”, se inserta un nuevo libro en la base.
+
+* Listar libros
+
+Al hacer click en “Mostrar lista”, se despliega una tabla con todos los libros.
+
+Presionando nuevamente el botón, la tabla se oculta.
+
+        Se puede ordenar por cualquier columna excepto descripción, haciendo click en el nombre de la columna.
+
+* Eliminar libro
+
+Presionando el botón “Eliminar”, se borra el libro correspondiente de la base.

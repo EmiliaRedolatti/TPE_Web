@@ -147,9 +147,6 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) {
     sortColumn := r.FormValue("sort")
     sortOrder := r.FormValue("order")
 
-    log.Println("Raw mostrar:", r.FormValue("mostrar"))
-    log.Println("Query mostrar:", r.URL.Query().Get("mostrar"))
-
     redirectURL := fmt.Sprintf(
         "/?mostrar=%t&sort=%s&order=%s",
         mostrar,
