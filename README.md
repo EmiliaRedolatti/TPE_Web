@@ -46,7 +46,7 @@ Al hacer click en “Mostrar lista”, se despliega una tabla con todos los libr
 
 Presionando nuevamente el botón, la tabla se oculta.
 
-        Se puede ordenar por cualquier columna excepto descripción, haciendo click en el nombre de la columna.
+    Se puede ordenar por cualquier columna excepto descripción, haciendo click en el nombre de la columna.
 
 * Eliminar libro
 
