@@ -165,7 +165,7 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    log.Println(" Delete ID:", r.FormValue("id"))    // <--- LOG CLAVE
+    log.Println("Delete ID:", idStr)
 
     idInt, err := strconv.Atoi(idStr)
     if err != nil {
@@ -175,12 +175,20 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) {
 
     id := int32(idInt)
 
-    err = Queries.DeleteLibro(r.Context(), id)
-    if err != nil {
+    if err := Queries.DeleteLibro(r.Context(), id); err != nil {
         log.Println("Error al eliminar libro:", err)
         http.Error(w, "Error eliminando libro", http.StatusInternalServerError)
         return
     }
 
-    http.Redirect(w, r, "/?mostrar=true", http.StatusSeeOther)
+    sortColumn := r.FormValue("sort")
+    sortOrder := r.FormValue("order")
+
+    redirectURL := fmt.Sprintf(
+        "/?mostrar=true&sort=%s&order=%s",
+        sortColumn,
+        sortOrder,
+    )
+
+    http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 }

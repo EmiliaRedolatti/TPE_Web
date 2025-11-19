@@ -33,6 +33,8 @@ templ Lista_libros(libros []sqlc.Libro, mostrar bool, sortColumn, sortOrder stri
                         <td>
                             <form method="post" action="/delete">
                                 <input type="hidden" name="id" value={libro.ID}>
+                                <input type="hidden" name="sort" value={sortColumn} />
+                                <input type="hidden" name="order" value={sortOrder} />
                                 <button class="boton-eliminar">Eliminar</button>
                             </form>
                         </td>
