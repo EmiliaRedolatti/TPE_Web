@@ -4,9 +4,10 @@ import (
     sqlc "tpe/Base_Datos/bd/sqlc"
 )
 
-templ Home(libros []sqlc.Libro, mostrar bool) {
+templ Home(libros []sqlc.Libro, mostrar bool, sortColumn string, sortOrder string) {
     <div class="main-content">
-        @Entity_form(mostrar)
-        @Entity_List(libros, mostrar)
+        @Entity_form(mostrar, sortColumn, sortOrder)
+        @Entity_List(libros, mostrar, sortColumn, sortOrder)
     </div>
 }
+

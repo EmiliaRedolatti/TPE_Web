@@ -4,11 +4,13 @@ import (
     "strconv"
 )
 
-templ Entity_form(mostrar bool){
+templ Entity_form(mostrar bool, sortColumn, sortOrder string){
     <section class="col agregar-libro">
         <h2>Agregar Libro</h2>
         <form id="formulario-libro" method="post" action="/create">
             <input type="hidden" name="mostrar" value={ strconv.FormatBool(mostrar) } />
+            <input type="hidden" name="sort" value={sortColumn} />
+            <input type="hidden" name="order" value={sortOrder} />
             <div class="form-group">
             <label for="titulo">Titulo:</label>
             <input type="text" id="titulo" name="titulo" required>

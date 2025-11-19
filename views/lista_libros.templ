@@ -4,19 +4,19 @@ import (
     sqlc "tpe/Base_Datos/bd/sqlc"
 )
 
-templ Lista_libros(libros []sqlc.Libro){
+templ Lista_libros(libros []sqlc.Libro, mostrar bool, sortColumn, sortOrder string) {
 
     <div id="lista-libros">
         <table id="tabla-libros">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Título</th>
-                    <th>Autor</th>
+                    @SortableHeader("id", "ID", sortColumn, sortOrder, mostrar)
+                    @SortableHeader("titulo", "Título", sortColumn, sortOrder, mostrar)
+                    @SortableHeader("autor", "Autor", sortColumn, sortOrder, mostrar)
                     <th>Descripción</th>
-                    <th>Valoración</th>
-                    <th>Año</th>
-                    <th>Género principal</th>
+                    @SortableHeader("valoracion", "Valoración", sortColumn, sortOrder, mostrar)
+                    @SortableHeader("anio", "Año", sortColumn, sortOrder, mostrar)
+                    @SortableHeader("genero_principal", "Género principal", sortColumn, sortOrder, mostrar)
                     <th>Acciones</th>
                 </tr>
             </thead>

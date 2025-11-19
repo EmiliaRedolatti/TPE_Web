@@ -34,25 +34,25 @@ func safeString(s any) string {
     }
 }
 
-templ Entity_List(libros []sqlc.Libro, mostrar bool) {
-
+templ Entity_List(libros []sqlc.Libro, mostrar bool, sortColumn, sortOrder string) {
     <section class="col lista-libros">
         <h2>Lista de Libros</h2>
+
         <form method="GET" action="/">
             <input type="hidden" name="mostrar" value={!mostrar} />
             <button id="boton-listar" class="btn">
                 if mostrar { 
                     Ocultar lista 
-                }else{
-                    Mostrar lista
+                } else { 
+                    Mostrar lista 
                 }
             </button>
         </form>
 
         if mostrar {
-            @Lista_libros(libros)
+            @Lista_libros(libros, mostrar, sortColumn, sortOrder)
         } else {
-            <p>La lista está oculta. Hacé clic en “Mostrar lista” para verla.</p>
+            <p>La lista está oculta. Hacé clic en “Mostrar lista”.</p>
         }
     </section>
 }

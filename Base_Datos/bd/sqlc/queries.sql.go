@@ -107,6 +107,426 @@ func (q *Queries) ListLibros(ctx context.Context) ([]Libro, error) {
 	return items, nil
 }
 
+const listLibrosOrderByAnioAsc = `-- name: ListLibrosOrderByAnioAsc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY anio ASC
+`
+
+func (q *Queries) ListLibrosOrderByAnioAsc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByAnioAsc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByAnioDesc = `-- name: ListLibrosOrderByAnioDesc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY anio DESC
+`
+
+func (q *Queries) ListLibrosOrderByAnioDesc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByAnioDesc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByAutorAsc = `-- name: ListLibrosOrderByAutorAsc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY autor ASC
+`
+
+func (q *Queries) ListLibrosOrderByAutorAsc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByAutorAsc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByAutorDesc = `-- name: ListLibrosOrderByAutorDesc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY autor DESC
+`
+
+func (q *Queries) ListLibrosOrderByAutorDesc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByAutorDesc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByGeneroAsc = `-- name: ListLibrosOrderByGeneroAsc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY genero_principal ASC
+`
+
+func (q *Queries) ListLibrosOrderByGeneroAsc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByGeneroAsc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByGeneroDesc = `-- name: ListLibrosOrderByGeneroDesc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY genero_principal DESC
+`
+
+func (q *Queries) ListLibrosOrderByGeneroDesc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByGeneroDesc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByIdAsc = `-- name: ListLibrosOrderByIdAsc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY id ASC
+`
+
+func (q *Queries) ListLibrosOrderByIdAsc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByIdAsc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByIdDesc = `-- name: ListLibrosOrderByIdDesc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY id DESC
+`
+
+func (q *Queries) ListLibrosOrderByIdDesc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByIdDesc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByTituloAsc = `-- name: ListLibrosOrderByTituloAsc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY titulo ASC
+`
+
+func (q *Queries) ListLibrosOrderByTituloAsc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByTituloAsc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByTituloDesc = `-- name: ListLibrosOrderByTituloDesc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY titulo DESC
+`
+
+func (q *Queries) ListLibrosOrderByTituloDesc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByTituloDesc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByValoracionAsc = `-- name: ListLibrosOrderByValoracionAsc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY valoracion ASC
+`
+
+func (q *Queries) ListLibrosOrderByValoracionAsc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByValoracionAsc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listLibrosOrderByValoracionDesc = `-- name: ListLibrosOrderByValoracionDesc :many
+SELECT id, titulo, autor, descripcion, valoracion, anio, genero_principal FROM libros ORDER BY valoracion DESC
+`
+
+func (q *Queries) ListLibrosOrderByValoracionDesc(ctx context.Context) ([]Libro, error) {
+	rows, err := q.db.QueryContext(ctx, listLibrosOrderByValoracionDesc)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Libro
+	for rows.Next() {
+		var i Libro
+		if err := rows.Scan(
+			&i.ID,
+			&i.Titulo,
+			&i.Autor,
+			&i.Descripcion,
+			&i.Valoracion,
+			&i.Anio,
+			&i.GeneroPrincipal,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateLibro = `-- name: UpdateLibro :exec
 UPDATE libros SET titulo = $2, autor = $3, descripcion = $4, valoracion = $5, anio = $6, genero_principal = $7 WHERE id = $1
 `

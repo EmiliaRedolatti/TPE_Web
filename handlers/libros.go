@@ -9,26 +9,81 @@ import (
     "strconv"
     "database/sql"
     "log"
+    "fmt"
 )
 
 var Queries *sqlc.Queries
 var mostrar bool
 
 func LayoutHandler(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context() // mejor que context.Background()
+	ctx := r.Context()
 
-	// Obtenemos los libros
-	libros, err := Queries.ListLibros(ctx)
+	// 1. mostrar
+	mostrar := r.URL.Query().Get("mostrar") == "true"
+
+	// 2. sort + order
+	sortColumn := r.URL.Query().Get("sort")
+	sortOrder := r.URL.Query().Get("order")
+	if sortOrder != "desc" {
+		sortOrder = "asc"
+	}
+
+	var libros []sqlc.Libro
+	var err error
+
+	switch sortColumn {
+	case "id":
+		if sortOrder == "asc" {
+			libros, err = Queries.ListLibrosOrderByIdAsc(ctx)
+		} else {
+			libros, err = Queries.ListLibrosOrderByIdDesc(ctx)
+		}
+	case "titulo":
+		if sortOrder == "asc" {
+			libros, err = Queries.ListLibrosOrderByTituloAsc(ctx)
+		} else {
+			libros, err = Queries.ListLibrosOrderByTituloDesc(ctx)
+		}
+	case "autor":
+		if sortOrder == "asc" {
+			libros, err = Queries.ListLibrosOrderByAutorAsc(ctx)
+		} else {
+			libros, err = Queries.ListLibrosOrderByAutorDesc(ctx)
+		}
+    case "valoracion":
+		if sortOrder == "asc" {
+			libros, err = Queries.ListLibrosOrderByValoracionAsc(ctx)
+		} else {
+			libros, err = Queries.ListLibrosOrderByValoracionDesc(ctx)
+		}
+    case "anio":
+		if sortOrder == "asc" {
+			libros, err = Queries.ListLibrosOrderByAnioAsc(ctx)
+		} else {
+			libros, err = Queries.ListLibrosOrderByAnioDesc(ctx)
+		}
+    case "genero_principal":
+		if sortOrder == "asc" {
+			libros, err = Queries.ListLibrosOrderByGeneroAsc(ctx)
+		} else {
+			libros, err = Queries.ListLibrosOrderByGeneroDesc(ctx)
+		}
+	default:
+		// Orden por defecto
+		libros, err = Queries.ListLibros(ctx)
+		sortColumn = "id"
+		sortOrder = "asc"
+	}
+
 	if err != nil {
 		http.Error(w, "Error al obtener libros: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Leemos si hay un parámetro ?mostrar=true en la URL
-	mostrar := r.URL.Query().Get("mostrar") == "true"
+	// 3. Pasamos sortColumn y sortOrder a la vista
+	page := views.Layout("Huella", views.Home(libros, mostrar, sortColumn, sortOrder),
+	)
 
-	// Renderizamos pasando ambos argumentos
-	page := views.Layout("Huella", views.Home(libros, mostrar)) //IndexPage????
 	templ.Handler(page).ServeHTTP(w, r)
 }
 
@@ -89,15 +144,20 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) {
     }
     
     mostrar := r.FormValue("mostrar") == "true"
+    sortColumn := r.FormValue("sort")
+    sortOrder := r.FormValue("order")
+
     log.Println("Raw mostrar:", r.FormValue("mostrar"))
     log.Println("Query mostrar:", r.URL.Query().Get("mostrar"))
 
+    redirectURL := fmt.Sprintf(
+        "/?mostrar=%t&sort=%s&order=%s",
+        mostrar,
+        sortColumn,
+        sortOrder,
+    )
 
-    if mostrar {
-        http.Redirect(w, r, "/?mostrar=true", http.StatusSeeOther)
-    } else {
-        http.Redirect(w, r, "/?mostrar=false", http.StatusSeeOther)
-    }
+    http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 }
 
 func DeleteHandler(w http.ResponseWriter, r *http.Request) {

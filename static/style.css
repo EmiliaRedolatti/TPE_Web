@@ -134,20 +134,78 @@ p.clasificacion input:checked ~ label {
     color: #fff;
 }
 
+#tabla-libros th,
+#tabla-libros td {
+    text-align: center;
+    vertical-align: middle;
+}
+
 #tabla-libros th {
     padding: 12px 8px;
     font-size: 0.95rem;
     font-weight: 600;
+    position: relative;
+    user-select: none;
 }
 
+/* --- Enlaces dentro de los encabezados --- */
+#tabla-libros th a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: inherit;
+}
+
+#tabla-libros th a:hover {
+    text-decoration: underline;
+}
+
+/* --- Columnas ORDENABLES (SortableHeader) --- */
+#tabla-libros th.sortable {
+    cursor: pointer;
+    padding-right: 20px;
+}
+
+/* Flecha base */
+#tabla-libros th.sortable::after {
+    content: "";
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    transform: translateY(-50%);
+}
+
+/* Flecha ASCENDENTE */
+#tabla-libros th.sorted-asc::after {
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+    transform: translateY(-50%) rotate(-135deg);
+}
+
+/* Flecha DESCENDENTE */
+#tabla-libros th.sorted-desc::after {
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+/* Color especial cuando está ordenado */
+#tabla-libros th.sorted-asc,
+#tabla-libros th.sorted-desc {
+    background-color: #5b3f33;
+}
+
+/* --- Celdas del cuerpo --- */
 #tabla-libros td {
     padding: 10px 8px;
     border-bottom: 1px solid #dac2ae;
-    text-align: center;
     font-size: 0.9rem;
 }
 
-/* Rayado de filas y hover */
+/* Rayado */
 #tabla-libros tbody tr:nth-child(even) {
     background-color: #e8e2d8;
 }
@@ -156,14 +214,10 @@ p.clasificacion input:checked ~ label {
     background-color: #dac2ae;
 }
 
-/* Columnas específicas */
+#tabla-libros th:nth-child(4),
 #tabla-libros td:nth-child(4) {
-    max-width: 250px;
     white-space: normal;
-}
-
-#tabla-libros td:nth-child(5) {
-    text-align: center;
+    max-width: 250px;
 }
 
 /* Botón de eliminar */

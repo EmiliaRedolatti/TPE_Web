@@ -1,0 +1,33 @@
+package views
+
+import "fmt"
+
+func nextOrder(column, currentCol, currentOrd string) string {
+    if column == currentCol && currentOrd == "asc" {
+        return "desc"
+    }
+    return "asc"
+}
+
+templ SortableHeader(name, label, currentCol, currentOrd string, mostrar bool) {
+    <th
+        class={
+            map[string]bool{
+                "sortable": true,
+                "sorted-asc":  currentCol == name && currentOrd == "asc",
+                "sorted-desc": currentCol == name && currentOrd == "desc",
+            }
+        }
+    >
+        <a href={
+            fmt.Sprintf(
+                "/?mostrar=%t&sort=%s&order=%s",
+                mostrar,
+                name,
+                nextOrder(name, currentCol, currentOrd),
+            )
+        }>
+            { label }
+        </a>
+    </th>
+}
