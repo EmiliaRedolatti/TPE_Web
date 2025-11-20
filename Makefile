@@ -19,8 +19,8 @@ run:
 
 initBase:
 	@echo "--- 5. Carga datos a la base ---"
-	@chmod +x test.sh
-	@./test.sh
+	@chmod +x agregarLibro.sh
+	@./agregarLibro.sh
 
 	@echo "--- 6. Deteniendo servicios ---"
 	@$(MAKE) --no-print-directory stop
