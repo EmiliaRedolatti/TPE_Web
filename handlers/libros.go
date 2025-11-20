@@ -9,6 +9,7 @@ import (
     "strconv"
     "database/sql"
     "log"
+    "context"
 )
 
 var Queries *sqlc.Queries
@@ -30,58 +31,14 @@ func LayoutHandler(w http.ResponseWriter, r *http.Request) {
 	var libros []sqlc.Libro
 	var err error
 
-	switch sortColumn {
-	case "id":
-		if sortOrder == "asc" {
-			libros, err = Queries.ListLibrosOrderByIdAsc(ctx)
-		} else {
-			libros, err = Queries.ListLibrosOrderByIdDesc(ctx)
-		}
-	case "titulo":
-		if sortOrder == "asc" {
-			libros, err = Queries.ListLibrosOrderByTituloAsc(ctx)
-		} else {
-			libros, err = Queries.ListLibrosOrderByTituloDesc(ctx)
-		}
-	case "autor":
-		if sortOrder == "asc" {
-			libros, err = Queries.ListLibrosOrderByAutorAsc(ctx)
-		} else {
-			libros, err = Queries.ListLibrosOrderByAutorDesc(ctx)
-		}
-    case "valoracion":
-		if sortOrder == "asc" {
-			libros, err = Queries.ListLibrosOrderByValoracionAsc(ctx)
-		} else {
-			libros, err = Queries.ListLibrosOrderByValoracionDesc(ctx)
-		}
-    case "anio":
-		if sortOrder == "asc" {
-			libros, err = Queries.ListLibrosOrderByAnioAsc(ctx)
-		} else {
-			libros, err = Queries.ListLibrosOrderByAnioDesc(ctx)
-		}
-    case "genero_principal":
-		if sortOrder == "asc" {
-			libros, err = Queries.ListLibrosOrderByGeneroAsc(ctx)
-		} else {
-			libros, err = Queries.ListLibrosOrderByGeneroDesc(ctx)
-		}
-	default:
-		// Orden por defecto
-		libros, err = Queries.ListLibros(ctx)
-		sortColumn = "id"
-		sortOrder = "asc"
-	}
+	libros, err = GetLibrosOrdenados(ctx, sortColumn, sortOrder)
 
 	if err != nil {
 		http.Error(w, "Error al obtener libros: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// 3. Pasamos sortColumn y sortOrder a la vista
-	page := views.Layout("Huella", views.Home(libros, mostrar, sortColumn, sortOrder),
-	)
+	page := views.Layout("Huella", views.Home(libros, mostrar, sortColumn, sortOrder),)
 
 	templ.Handler(page).ServeHTTP(w, r)
 }
@@ -146,7 +103,7 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) {
     sortColumn := r.FormValue("sort")
     sortOrder := r.FormValue("order")
 
-    libros, err := Queries.ListLibros(r.Context())
+    libros, err := GetLibrosOrdenados(r.Context(), sortColumn, sortOrder)
     if err != nil {
         http.Error(w, "Error al obtener libros", http.StatusInternalServerError)
         return
@@ -181,19 +138,47 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-   // ---- Leer sort / order desde hx-vals ----
-    sortColumn := r.FormValue("sort")   // <<< importante
-    sortOrder := r.FormValue("order")   // <<< importante
+    sortColumn := r.FormValue("sort")
+    sortOrder := r.FormValue("order")
 
-    // ---- Obtener lista actualizada ----
-    libros, err := Queries.ListLibros(r.Context())
+    libros, err := GetLibrosOrdenados(r.Context(), sortColumn, sortOrder)
     if err != nil {
         http.Error(w, "Error al obtener libros", http.StatusInternalServerError)
         return
     }
 
-    // ---- Renderizar tabla ----
     w.Header().Set("Content-Type", "text/html; charset=utf-8")
     views.Lista_libros(libros, true, sortColumn, sortOrder).Render(r.Context(), w)
 }
 
+func GetLibrosOrdenados(ctx context.Context, sortColumn, sortOrder string) ([]sqlc.Libro, error) {
+
+    switch sortColumn {
+    case "id":
+        if sortOrder == "asc" { return Queries.ListLibrosOrderByIdAsc(ctx) }
+        return Queries.ListLibrosOrderByIdDesc(ctx)
+
+    case "titulo":
+        if sortOrder == "asc" { return Queries.ListLibrosOrderByTituloAsc(ctx) }
+        return Queries.ListLibrosOrderByTituloDesc(ctx)
+
+    case "autor":
+        if sortOrder == "asc" { return Queries.ListLibrosOrderByAutorAsc(ctx) }
+        return Queries.ListLibrosOrderByAutorDesc(ctx)
+
+    case "valoracion":
+        if sortOrder == "asc" { return Queries.ListLibrosOrderByValoracionAsc(ctx) }
+        return Queries.ListLibrosOrderByValoracionDesc(ctx)
+
+    case "anio":
+        if sortOrder == "asc" { return Queries.ListLibrosOrderByAnioAsc(ctx) }
+        return Queries.ListLibrosOrderByAnioDesc(ctx)
+
+    case "genero_principal":
+        if sortOrder == "asc" { return Queries.ListLibrosOrderByGeneroAsc(ctx) }
+        return Queries.ListLibrosOrderByGeneroDesc(ctx)
+    }
+
+    // default
+    return Queries.ListLibros(ctx)
+}
