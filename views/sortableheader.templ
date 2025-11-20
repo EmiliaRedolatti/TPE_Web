@@ -16,8 +16,7 @@ templ SortableHeader(name, label, currentCol, currentOrd string, mostrar bool) {
                 "sortable": true,
                 "sorted-asc":  currentCol == name && currentOrd == "asc",
                 "sorted-desc": currentCol == name && currentOrd == "desc",
-            }
-        }
+        }}
     >
         <a href={
             fmt.Sprintf(

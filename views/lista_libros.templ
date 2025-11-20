@@ -35,7 +35,7 @@ templ Lista_libros(libros []sqlc.Libro, mostrar bool, sortColumn, sortOrder stri
                             <button class="boton-eliminar"
                                 hx-delete={ "/delete/" + strconv.Itoa(int(libro.ID)) }
                                 hx-vals={ "{ \"sort\": \"" + sortColumn + "\", \"order\": \"" + sortOrder + "\" }" }
-                                hx-target="#lista-libros"
+                                hx-target="closest tr"
                                 hx-swap="outerHTML"
                                 hx-confirm="¿Seguro que querés borrar este libro?"
                             >Eliminar</button>

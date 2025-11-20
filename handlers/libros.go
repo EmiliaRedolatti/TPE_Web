@@ -28,19 +28,25 @@ func LayoutHandler(w http.ResponseWriter, r *http.Request) {
 		sortOrder = "asc"
 	}
 
-	var libros []sqlc.Libro
-	var err error
-
-	libros, err = GetLibrosOrdenados(ctx, sortColumn, sortOrder)
+	libros, err := GetLibrosOrdenados(ctx, sortColumn, sortOrder)
 
 	if err != nil {
 		http.Error(w, "Error al obtener libros: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	page := views.Layout("Huella", views.Home(libros, mostrar, sortColumn, sortOrder),)
+	hx := r.Header.Get("HX-Request") == "true"
 
-	templ.Handler(page).ServeHTTP(w, r)
+    if hx {
+        // Solo renderizamos el fragmento de lista
+        w.Header().Set("Content-Type", "text/html; charset=utf-8")
+        views.Entity_List(libros, mostrar, sortColumn, sortOrder).Render(ctx, w)
+        return
+    }
+
+    // Render completo de la página
+    page := views.Layout("Huella", views.Home(libros, mostrar, sortColumn, sortOrder))
+    templ.Handler(page).ServeHTTP(w, r)
 }
 
 
@@ -138,17 +144,7 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    sortColumn := r.FormValue("sort")
-    sortOrder := r.FormValue("order")
-
-    libros, err := GetLibrosOrdenados(r.Context(), sortColumn, sortOrder)
-    if err != nil {
-        http.Error(w, "Error al obtener libros", http.StatusInternalServerError)
-        return
-    }
-
-    w.Header().Set("Content-Type", "text/html; charset=utf-8")
-    views.Lista_libros(libros, true, sortColumn, sortOrder).Render(r.Context(), w)
+    w.WriteHeader(http.StatusNoContent)
 }
 
 func GetLibrosOrdenados(ctx context.Context, sortColumn, sortOrder string) ([]sqlc.Libro, error) {
@@ -181,4 +177,20 @@ func GetLibrosOrdenados(ctx context.Context, sortColumn, sortOrder string) ([]sq
 
     // default
     return Queries.ListLibros(ctx)
+}
+
+func TablaLibrosHandler(w http.ResponseWriter, r *http.Request) {
+    ctx := r.Context()
+    sortColumn := r.URL.Query().Get("sort")
+    sortOrder := r.URL.Query().Get("order")
+    mostrar := true
+
+    libros, err := GetLibrosOrdenados(ctx, sortColumn, sortOrder)
+    if err != nil {
+        http.Error(w, "Error al obtener libros", http.StatusInternalServerError)
+        return
+    }
+
+    w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    views.Lista_libros(libros, mostrar, sortColumn, sortOrder).Render(ctx, w)
 }

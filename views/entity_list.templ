@@ -4,6 +4,7 @@ import (
     "database/sql"
     "fmt"
     sqlc "tpe/Base_Datos/bd/sqlc"
+    "strconv"
 )
 
 func safeInt(n any) string {
@@ -35,19 +36,20 @@ func safeString(s any) string {
 }
 
 templ Entity_List(libros []sqlc.Libro, mostrar bool, sortColumn, sortOrder string) {
-    <section class="col lista-libros">
+    <section id="entity-list" class="col lista-libros">
         <h2>Lista de Libros</h2>
 
-        <form method="GET" action="/">
-            <input type="hidden" name="mostrar" value={!mostrar} />
-            <button id="boton-listar" class="btn">
+        <button id="boton-listar" class="btn" type="button"
+            hx-get={"/?mostrar=" + strconv.FormatBool(!mostrar)}
+            hx-target="#entity-list"
+            hx-swap="outerHTML"
+        >
                 if mostrar { 
                     Ocultar lista 
                 } else { 
                     Mostrar lista 
                 }
-            </button>
-        </form>
+        </button>
 
         if mostrar {
             @Lista_libros(libros, mostrar, sortColumn, sortOrder)
