@@ -144,7 +144,7 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    w.WriteHeader(http.StatusNoContent)
+    w.WriteHeader(http.StatusOK)
 }
 
 func GetLibrosOrdenados(ctx context.Context, sortColumn, sortOrder string) ([]sqlc.Libro, error) {
