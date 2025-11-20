@@ -51,3 +51,4 @@ Presionando nuevamente el botón, la tabla se oculta.
 * Eliminar libro
 
 Presionando el botón “Eliminar”, se borra el libro correspondiente de la base.
+

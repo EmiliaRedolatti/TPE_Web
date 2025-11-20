@@ -29,7 +29,7 @@ func main() {
     //Handler de layout
     http.HandleFunc("/", handlers.LayoutHandler)
     http.HandleFunc("/create", handlers.CreateHandler)
-    http.HandleFunc("/delete", handlers.DeleteHandler)
+    http.HandleFunc("/delete/{id}", handlers.DeleteHandler)
 
     // 1. Handler para servir archivos estáticos (CSS, JS, Imágenes)
     // El prefijo "/static/" debe coincidir con cómo se referencian los archivos en el HTML

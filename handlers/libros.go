@@ -9,7 +9,6 @@ import (
     "strconv"
     "database/sql"
     "log"
-    "fmt"
 )
 
 var Queries *sqlc.Queries
@@ -147,26 +146,27 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) {
     sortColumn := r.FormValue("sort")
     sortOrder := r.FormValue("order")
 
-    redirectURL := fmt.Sprintf(
-        "/?mostrar=%t&sort=%s&order=%s",
-        mostrar,
-        sortColumn,
-        sortOrder,
-    )
+    libros, err := Queries.ListLibros(r.Context())
+    if err != nil {
+        http.Error(w, "Error al obtener libros", http.StatusInternalServerError)
+        return
+    }
 
-    http.Redirect(w, r, redirectURL, http.StatusSeeOther)
+    w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    views.Lista_libros(libros, mostrar, sortColumn, sortOrder).Render(r.Context(), w)
 }
 
 func DeleteHandler(w http.ResponseWriter, r *http.Request) {
 
-    idStr := r.FormValue("id")
-    if idStr == "" {
-        http.Error(w, "Falta el ID", http.StatusBadRequest)
+    path := r.URL.Path
+    partes := strings.Split(path, "/")
+
+    if len(partes) < 3 || partes[2] == "" {
+        http.Error(w, "ID faltante", http.StatusBadRequest)
         return
     }
 
-    log.Println("Delete ID:", idStr)
-
+    idStr := partes[2]
     idInt, err := strconv.Atoi(idStr)
     if err != nil {
         http.Error(w, "ID inválido", http.StatusBadRequest)
@@ -181,14 +181,19 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    sortColumn := r.FormValue("sort")
-    sortOrder := r.FormValue("order")
+   // ---- Leer sort / order desde hx-vals ----
+    sortColumn := r.FormValue("sort")   // <<< importante
+    sortOrder := r.FormValue("order")   // <<< importante
 
-    redirectURL := fmt.Sprintf(
-        "/?mostrar=true&sort=%s&order=%s",
-        sortColumn,
-        sortOrder,
-    )
+    // ---- Obtener lista actualizada ----
+    libros, err := Queries.ListLibros(r.Context())
+    if err != nil {
+        http.Error(w, "Error al obtener libros", http.StatusInternalServerError)
+        return
+    }
 
-    http.Redirect(w, r, redirectURL, http.StatusSeeOther)
+    // ---- Renderizar tabla ----
+    w.Header().Set("Content-Type", "text/html; charset=utf-8")
+    views.Lista_libros(libros, true, sortColumn, sortOrder).Render(r.Context(), w)
 }
+

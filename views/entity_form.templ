@@ -7,7 +7,7 @@ import (
 templ Entity_form(mostrar bool, sortColumn, sortOrder string){
     <section class="col agregar-libro">
         <h2>Agregar Libro</h2>
-        <form id="formulario-libro" method="post" action="/create">
+        <form id="formulario-libro" hx-post="/create" hx-target="#lista-libros" hx-on::after-request="if(event.detail.successful) this.reset()" >
             <input type="hidden" name="mostrar" value={ strconv.FormatBool(mostrar) } />
             <input type="hidden" name="sort" value={sortColumn} />
             <input type="hidden" name="order" value={sortOrder} />

@@ -2,6 +2,7 @@ package views
 
 import (
     sqlc "tpe/Base_Datos/bd/sqlc"
+    "strconv"
 )
 
 templ Lista_libros(libros []sqlc.Libro, mostrar bool, sortColumn, sortOrder string) {
@@ -20,7 +21,7 @@ templ Lista_libros(libros []sqlc.Libro, mostrar bool, sortColumn, sortOrder stri
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="cuerpo_tabla">
                 for _, libro := range libros {
                     <tr>
                         <td>{ libro.ID }</td>
@@ -31,12 +32,13 @@ templ Lista_libros(libros []sqlc.Libro, mostrar bool, sortColumn, sortOrder stri
                         <td>{ safeInt(libro.Anio) }</td>
                         <td>{ safeString(libro.GeneroPrincipal) }</td>
                         <td>
-                            <form method="post" action="/delete">
-                                <input type="hidden" name="id" value={libro.ID}>
-                                <input type="hidden" name="sort" value={sortColumn} />
-                                <input type="hidden" name="order" value={sortOrder} />
-                                <button class="boton-eliminar">Eliminar</button>
-                            </form>
+                            <button class="boton-eliminar"
+                                hx-delete={ "/delete/" + strconv.Itoa(int(libro.ID)) }
+                                hx-vals={ "{ \"sort\": \"" + sortColumn + "\", \"order\": \"" + sortOrder + "\" }" }
+                                hx-target="#lista-libros"
+                                hx-swap="outerHTML"
+                                hx-confirm="¿Seguro que querés borrar este libro?"
+                            >Eliminar</button>
                         </td>
                     </tr>
                 }
