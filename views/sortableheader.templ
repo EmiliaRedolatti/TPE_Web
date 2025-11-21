@@ -27,6 +27,7 @@ templ SortableHeader(name, label, currentCol, currentOrd string, mostrar bool) {
                     nextOrder(name, currentCol, currentOrd),
                 )
             }
+            hx-push-url="true"
             hx-target="#entity-list"
             hx-swap="outerHTML"
             class="header-sort"

@@ -78,14 +78,14 @@ func SortableHeader(name, label, currentCol, currentOrd string, mostrar bool) te
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" hx-target=\"#entity-list\" hx-swap=\"outerHTML\" class=\"header-sort\" style=\"cursor:pointer\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" hx-push-url=\"true\" hx-target=\"#entity-list\" hx-swap=\"outerHTML\" class=\"header-sort\" style=\"cursor:pointer\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(label)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/sortableheader.templ`, Line: 35, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/sortableheader.templ`, Line: 36, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {

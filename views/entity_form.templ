@@ -8,9 +8,11 @@ templ Entity_form(mostrar bool, sortColumn, sortOrder string){
     <section class="col agregar-libro">
         <h2>Agregar Libro</h2>
         <form id="formulario-libro">
+
             <input type="hidden" name="mostrar" value={ strconv.FormatBool(mostrar) } />
             <input type="hidden" name="sort" value={sortColumn} />
             <input type="hidden" name="order" value={sortOrder} />
+
             <div class="form-group">
             <label for="titulo">Titulo:</label>
             <input type="text" id="titulo" name="titulo" required>
@@ -51,7 +53,6 @@ templ Entity_form(mostrar bool, sortColumn, sortOrder string){
             <label for="genero">Genero:</label>
             <input type="text" id="genero" name="genero" required>
             </div>
-
             <button
                 id="boton-agregar"
                 type="button"
@@ -59,9 +60,9 @@ templ Entity_form(mostrar bool, sortColumn, sortOrder string){
                 hx-post="/create"
                 hx-target="#lista-libros"
                 hx-include="#formulario-libro"
+                hx-vals={`{"mostrar": "${strconv.FormatBool(mostrar)}", "sort": "${sortColumn}", "order": "${sortOrder}"}`}
                 hx-on::after-request="if(event.detail.successful) document.getElementById('formulario-libro').reset()"
-            > Agregar
-            </button>
+            >Agregar</button>
         </form>
         </section>
 }
