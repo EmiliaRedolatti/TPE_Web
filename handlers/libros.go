@@ -147,6 +147,20 @@ func DeleteHandler(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
 }
 
+func TablaLibrosHandler(w http.ResponseWriter, r *http.Request) {
+    sort := r.URL.Query().Get("sort")
+    order := r.URL.Query().Get("order")
+    mostrar := r.URL.Query().Get("mostrar") == "true"
+
+    libros, err := GetLibrosOrdenados(r.Context(), sort, order)
+	if err != nil {
+		http.Error(w, "Error al obtener libros: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+    views.Lista_libros(libros, mostrar, sort, order).Render(r.Context(), w)
+}
+
 func GetLibrosOrdenados(ctx context.Context, sortColumn, sortOrder string) ([]sqlc.Libro, error) {
 
     switch sortColumn {
@@ -177,20 +191,4 @@ func GetLibrosOrdenados(ctx context.Context, sortColumn, sortOrder string) ([]sq
 
     // default
     return Queries.ListLibros(ctx)
-}
-
-func TablaLibrosHandler(w http.ResponseWriter, r *http.Request) {
-    ctx := r.Context()
-    sortColumn := r.URL.Query().Get("sort")
-    sortOrder := r.URL.Query().Get("order")
-    mostrar := true
-
-    libros, err := GetLibrosOrdenados(ctx, sortColumn, sortOrder)
-    if err != nil {
-        http.Error(w, "Error al obtener libros", http.StatusInternalServerError)
-        return
-    }
-
-    w.Header().Set("Content-Type", "text/html; charset=utf-8")
-    views.Lista_libros(libros, mostrar, sortColumn, sortOrder).Render(ctx, w)
 }

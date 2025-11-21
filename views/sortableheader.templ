@@ -18,15 +18,22 @@ templ SortableHeader(name, label, currentCol, currentOrd string, mostrar bool) {
                 "sorted-desc": currentCol == name && currentOrd == "desc",
         }}
     >
-        <a href={
-            fmt.Sprintf(
-                "/?mostrar=%t&sort=%s&order=%s",
-                mostrar,
-                name,
-                nextOrder(name, currentCol, currentOrd),
-            )
-        }>
+        <a
+            hx-get={
+                fmt.Sprintf(
+                    "/?mostrar=%t&sort=%s&order=%s",
+                    mostrar,
+                    name,
+                    nextOrder(name, currentCol, currentOrd),
+                )
+            }
+            hx-target="#entity-list"
+            hx-swap="outerHTML"
+            class="header-sort"
+            style="cursor:pointer"
+        >
             { label }
         </a>
     </th>
 }
+
