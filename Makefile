@@ -18,13 +18,13 @@ run:
 	@echo "✔ Listo. Abrí http://localhost:8080"
 
 initBase:
-	@echo "--- 5. Carga datos a la base ---"
+
+	@echo "--- Carga datos a la base ---"
 	@chmod +x test.sh
 	@./test.sh
 
-	@echo "--- 6. Deteniendo servicios ---"
-	@$(MAKE) --no-print-directory stop
-
+	@echo "--- Deteniendo servicios ---"
+	@$(MAKE stop) --no-print-directory stop
 
 stop:
 	@echo "Deteniendo servicios..."

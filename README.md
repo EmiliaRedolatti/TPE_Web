@@ -6,11 +6,11 @@ Integrantes:
 
 
 Al descargar el repositorio, vas a estar en la rama main, la cual no está actualizada.
-Para probar correctamente el TP5, cambiá a la rama correspondiente con:
+Para probar correctamente el TP6, cambiá a la rama correspondiente con:
 
-`` git switch tp5 ``
+`` git switch tp6 ``
 
-## Como ejecutar el tp5
+## Como ejecutar el tp6
 
 1. Inicializar la base de datos
 
@@ -38,7 +38,7 @@ Cuando se termine de trabajar:
 
 * Agregar libros
 
-Completando el formulario y presionando “Agregar”, se inserta un nuevo libro en la base.
+Completando el formulario y presionando “Agregar”, se inserta un nuevo libro en la base y se actualiza el Entity_list.
 
 * Listar libros
 
@@ -46,9 +46,9 @@ Al hacer click en “Mostrar lista”, se despliega una tabla con todos los libr
 
 Presionando nuevamente el botón, la tabla se oculta.
 
-    Se puede ordenar por cualquier columna excepto descripción, haciendo click en el nombre de la columna.
+Se puede ordenar por cualquier columna excepto descripción, haciendo click en el nombre de la columna.
 
 * Eliminar libro
 
-Presionando el botón “Eliminar”, se borra el libro correspondiente de la base.
+Presionando el botón “Eliminar”, se borra el libro correspondiente de la base y del DOM para que no se muestre en la lista.
 
